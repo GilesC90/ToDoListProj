@@ -1,0 +1,33 @@
+@using ToDoList.Models;
+@model DashboardView;
+
+@foreach (Activity act in Model.AllActivities)
+{
+    if(act.UserId == @Model.LoggedInUser)
+    {
+        <a href="/activities/@act.ActivityId/delete">
+            <button class="btn btn-info-outline">
+                Delete
+            </button>
+        </a>
+    }
+    if(act.UserId != @Model.LoggedInUser)
+    {
+        if(@act.PeopleAttending.Any(g => g.UserId == Model.LoggedInUser))
+        {
+            <a href="/activities/RSVP/@act.ActivityId">
+                <button class="btn btn-info-outline">
+                    Un-RSVP
+                </button>
+            </a>
+        }
+        else
+        {
+            <a href="/activities/RSVP/@act.ActivityId">
+                <button class="btn btn-info-outline">
+                    RSVP
+                </button>
+            </a>
+        }
+    }
+}
